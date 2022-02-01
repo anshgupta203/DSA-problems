@@ -1,0 +1,43 @@
+class Solution {
+private: 
+    int mod = 1e9+7;
+private:
+    int solve(int ind, int seats, string &corridor, vector<vector<int>>&dp){
+        //Base cond.
+        if(ind == corridor.size()){
+            if(seats == 2) return 1;
+            return 0;
+        }
+        
+        if(dp[ind][seats] != -1) return dp[ind][seats];
+        
+        //if seats==2
+        //if next is P, I place a barrier or I don't place a barrier
+        //if next is S, I place a barrier
+        int res = 0;
+        if(seats == 2){
+            if(corridor[ind] == 'P'){
+                //place barrier
+                res+=solve(ind+1, 0, corridor, dp);
+                res %= mod;
+                //not place barrier
+                res+=solve(ind+1, seats, corridor, dp);
+                res %= mod;
+            }else{
+                 //next is seat
+                res += solve(ind+1, 1, corridor, dp);
+                res %= mod;
+            }     
+        }
+        else{
+           res+= solve(ind+1, seats + (corridor[ind] == 'S'), corridor, dp );
+        res %= mod;
+        }
+        return dp[ind][seats] = res ;
+    }
+public:
+    int numberOfWays(string corridor) {
+        vector<vector<int>> dp(corridor.size(), vector<int>(3, -1));
+       return solve(0, 0, corridor, dp);
+    }
+};
