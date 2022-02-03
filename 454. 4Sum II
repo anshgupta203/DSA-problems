@@ -1,0 +1,27 @@
+// Time: O(N^2)
+// Space: O(N^2)
+class Solution {
+public:
+    int fourSumCount(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3, vector<int>& nums4) {
+        unordered_map<int, int>abSum;
+        //Storing a+b sum in map
+        for(auto a: nums1){
+            for(auto b: nums2){
+                ++abSum[a+b];
+            }
+        }
+        int count = 0;
+        for(auto c: nums3){
+            for(auto d: nums4){
+                //Checking for (-c-d)
+                //a+b+c+d = 0
+                auto it = abSum.find(0-c-d);
+                    //if iterator does reach map end
+                    //such pair of (c,d) exists in map
+                    if( it != abSum.end())
+                        count += it->second;
+            }
+        }
+        return count;
+    }
+};

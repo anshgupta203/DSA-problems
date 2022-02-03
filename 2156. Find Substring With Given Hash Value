@@ -1,0 +1,45 @@
+New Concept : **Rolling Hash**
+Similar to the concept of **Sliding Window**
+
+hash(s, p, m) = (val(s[0]) * p0 + val(s[1]) * p1 + ... + val(s[k-1]) * pk-1) mod m.
+Calculate the rolling hash backward.
+In this process, we slide a window of size k from the end to the begin.
+
+Firstly calculate the substring hash of the last k characters,
+then we add one previous backward and drop the last characters.
+
+Why traverse from end instead of front?
+Because cur is remainder by mod m,
+cur = cur * p works easier.
+cur = cur / p doesn'r work easily (Number theory)
+
+
+class Solution {
+public:
+    string subStrHash(string s, long long power, long long modulo, long long k, int hashValue) {
+        long long hash = 0;
+        int n = s.size();
+        int ind = n;
+        long long pr = 1;
+        //Sliding window backwards
+        for(int i = n-1; i>= 0; i--){
+            hash = ((hash*power) % modulo + (s[i]-'a'+1))%modulo;
+            
+            //keeping the window growing
+            if(i+k >= n){
+                pr= (pr*power) % modulo;
+            }
+            //remove the element from last
+            else{
+                hash = ( hash - ((s[i+k]-'a'+1)*pr) % modulo + modulo) % modulo;
+            }
+            
+            if(hash == hashValue){
+                ind = i;
+            }
+        }
+        return s.substr(ind, k);
+        
+        
+    }
+};
