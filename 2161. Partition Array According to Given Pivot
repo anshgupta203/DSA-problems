@@ -1,0 +1,25 @@
+https://leetcode.com/problems/partition-array-according-to-given-pivot/
+
+// Time: O(N)
+// Space: O(N)
+class Solution {
+public:
+    vector<int> pivotArray(vector<int>& nums, int pivot) {
+        vector<int> res;
+        
+        //storing elements<pivot
+        for(auto it: nums){
+            if(it<pivot) res.push_back(it);
+        }
+         //storing elements==pivot
+         for(auto it: nums){
+            if(it==pivot) res.push_back(it);
+        }
+         //storing elements>pivot
+         for(auto it: nums){
+            if(it>pivot) res.push_back(it);
+        }
+        
+        return res;
+    }
+};

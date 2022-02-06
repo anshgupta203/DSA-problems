@@ -1,0 +1,50 @@
+https://leetcode.com/problems/contiguous-array/
+
+Approach-1
+// Brute-Force
+// Time: O(N^2)
+// Space: O(1)
+
+class Solution {
+public:
+    int findMaxLength(vector<int>& nums) {
+        int mx = 0;
+        int n = nums.size();
+        for(int i=0; i<n; ++i){
+            int ones=0, zeroes=0;
+            for(int j=i; j<n; ++j){
+                if(nums[j]==0) zeroes+=1;
+                else ones+=1;
+             if(ones==zeroes){
+                mx = max(mx, j-i+1);
+            }
+            }
+        }
+        return mx;
+        
+    }
+};
+
+Approach-2
+// Using Hash Table
+// Time: O(N)
+// Space: O(N)
+
+class Solution {
+public:
+    int findMaxLength(vector<int>& nums) {
+        int sum = 0, maxlen = 0;
+        unordered_map<int, int>mp{{0,-1}};
+        int n = nums.size();
+        for(int i=0; i<n; ++i){
+            //if 1 or not
+            sum += nums[i]==1 ? 1 : -1;
+            //if key 'sum' is not found
+            //store the index value for it
+            if(!mp.count(sum))
+                mp[sum]=i;
+            maxlen = max(maxlen, i-mp[sum] );
+        }
+        return maxlen;
+    }
+};
