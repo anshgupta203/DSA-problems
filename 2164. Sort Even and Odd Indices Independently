@@ -1,0 +1,57 @@
+https://leetcode.com/problems/sort-even-and-odd-indices-independently/
+
+// Using 1 array
+
+class Solution {
+public:
+    vector<int> sortEvenOdd(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> res;
+        
+        //pushing all even indexes
+        for(int i=0; i<n; i+=2) res.push_back(nums[i]);
+        // sorting in non-decreasing order
+        sort(res.begin(), res.end());
+        // putting elements back to even indexes in nums
+        for(int i=0, k=0; i<n; i+=2) nums[i] = res[k++];
+        res.clear();
+        
+        //pushing all odd indexes
+        for(int i=1; i<n; i+=2) res.push_back(nums[i]);
+        // sorting in non-increasing order
+        sort(res.begin(), res.end(), greater<>());
+        // putting elements back to odd indexes in nums
+        for(int i=1, k=0; i<n; i+=2) nums[i] = res[k++];
+        
+        return nums;
+    }
+};
+
+
+// Using Priority queue
+class Solution {
+public:
+    vector<int> sortEvenOdd(vector<int>& nums) {
+        int n = nums.size();
+        priority_queue<int> maxheap;
+        priority_queue <int, vector<int>, greater<int> > minheap;
+        
+        for(int i=0; i<n; ++i)
+            (i%2==0) ? minheap.push(nums[i]) : maxheap.push(nums[i]);
+        
+        int i = 0;
+        while(i<n){
+            if(i%2==0){
+                nums[i] = minheap.top();
+                minheap.pop();
+            }
+            else{
+                nums[i] = maxheap.top();
+                maxheap.pop();
+            }
+            i++;
+        }
+        return nums;   
+    }
+}
+

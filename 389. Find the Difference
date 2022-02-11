@@ -1,0 +1,27 @@
+https://leetcode.com/problems/find-the-difference/
+
+// Using hash map
+// Time: O(N)
+// Space: O(N)
+class Solution {
+public:
+    char findTheDifference(string s, string t) {
+    char res;
+        unordered_map<char,int>mp;
+        //storing string s in map
+        for(auto it: s)
+            mp[it]++;
+        //storing string t in map
+        for(auto it: t)
+            mp[it]++;
+        //extra char would occur only once
+        //rest occur twice
+        for(auto it: mp){
+            if(it.second % 2 == 1)
+                res = it.first;
+        }
+        return res;
+        
+        
+    }
+};

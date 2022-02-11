@@ -1,0 +1,31 @@
+https://leetcode.com/problems/subarray-sum-equals-k/
+
+Why sliding window algo can't be applied:
+https://leetcode.com/problems/subarray-sum-equals-k/discuss/282160/Why-not-use-Sliding-Window-algorithm-to-solve-this
+
+// Using map
+// Time: O(N)
+// Space: O(N)
+
+class Solution {
+public:
+	int subarraySum(vector<int>& nums, int k) {
+		unordered_map<int, int> map;
+        
+    //when sum and k are same sum-k==0; If we did not place it in the map at the first place it would say there is no 0 in the map( even though sum can make a subset )and the count cannot increase by 1. So. if we don't wank to skip that count we have to consider putting a 0 in the map.
+		map[0] = 1;
+		int sum = 0;
+		int count = 0;
+		for (int i = 0; i < nums.size(); i++) {
+			sum += nums[i];
+
+			if (map.find(sum - k) != map.end()) {
+				count += map[sum-k];  
+			}
+			map[sum]++;
+		}
+
+		return count;
+	}
+};
+
