@@ -1,0 +1,29 @@
+https://leetcode.com/problems/removing-minimum-number-of-magic-beans/
+
+class Solution {
+public:
+    long long minimumRemoval(vector<int>& beans) {
+        long long mn = 1e18;
+        long long total_beans =0;
+        
+        sort(beans.begin(), beans.end());
+        
+        for(auto it: beans)
+            // total beans in the bags
+            total_beans += it;
+        
+        long long n = beans.size();
+    
+        for(long long i=0; i<n; ++i){
+            // beans left after making all non-empty bags equal
+            long long saved_beans = (n-i) *(long long)beans[i] * 1LL;
+            // beans that were removed from the bags
+            long long removed_beans = total_beans - saved_beans;
+            mn = min(mn, removed_beans);
+        }
+        
+        return mn;
+        
+        
+    }
+};

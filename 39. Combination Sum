@@ -1,0 +1,36 @@
+https://leetcode.com/problems/combination-sum/submissions/
+
+// Recursion + Backtracking
+// Time: O(k * 2^target). where k is the average length of recursion depth
+// Space: O(T/M), T = target, M = min val in arr
+class Solution {
+
+private:
+    void solve(int ind, vector<int>& candidates, int target, vector<int>& combination, vector<vector<int>>& res ){
+        //when the exact target is achieved
+        if(!target){
+            res.push_back(combination);
+            return;
+        }
+        int n = candidates.size();
+        for(int i = ind; i<n && target >= candidates[i]; i++){
+            // pushing every element that can make 
+            // up every element that can form target
+            combination.push_back(candidates[i]);
+            // recursion
+            solve(i, candidates, target - candidates[i], combination, res);
+            // backtracking
+            combination.pop_back();
+        }
+           
+        
+    }
+public:
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());
+        vector<vector<int>> res;
+        vector<int>combination;
+        solve(0, candidates, target, combination, res);
+        return res;
+    }
+};

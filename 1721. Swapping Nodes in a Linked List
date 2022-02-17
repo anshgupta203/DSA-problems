@@ -1,0 +1,20 @@
+https://leetcode.com/problems/swapping-nodes-in-a-linked-list/
+
+//a single traversal and as soon as you get first pointer, 
+//start looking for second pointer right after it instead of starting from head.
+class Solution {
+public:
+    ListNode* swapNodes(ListNode* head, int k) {
+        ListNode *p1 = head;
+        for(int i=1; i<k; ++i)
+            p1 = p1->next;
+        
+        ListNode *slow = head, *fast = p1->next;
+        while(fast){
+            fast = fast->next;
+            slow = slow->next;
+        }
+        swap(slow->val, p1->val);
+        return head;
+    }
+};

@@ -1,0 +1,47 @@
+https://leetcode.com/problems/subsets/
+
+// BIT MANIPULATION
+// TIME: O(2^N * N)
+// SPACE: O(2^N * N)
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>>res;
+        int n = nums.size();
+        
+        // loop from i=0 to i=2^n-1
+        for(int i=0; i < (1<<n); ++i){
+            vector<int>temp;
+            // loop for bit index, 0 to n-1
+            for(int j=0; j<n; ++j){
+                //checking if the jth bit is set in i
+                if(i & (1<<j)) temp.push_back(nums[j]);
+            }
+            res.push_back(temp);
+        }
+        return res;
+    }
+};
+
+// ITERATIVE MANIPULATION
+// TIME: O(2^N * N)
+// SPACE: O(2^N * N)
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>>res;
+        int n = nums.size();
+    
+        res.push_back({});
+        
+        for(int i=0; i<n; ++i){
+            int m = res.size();
+            for(int j=0; j<m; ++j){
+                vector<int>temp = res[j];
+                temp.push_back(nums[i]);
+                res.push_back(temp);
+            }
+        }
+        return res;
+    }
+};

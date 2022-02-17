@@ -1,0 +1,31 @@
+https://leetcode.com/problems/permutation-in-string/
+
+// SLIDING WINDOW
+// TIME: O(N)
+// SPACE: O(1)
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        vector<int>goal(26), cur(26);
+        
+        // fill, goal with the pattern string
+        for(char c: s1) goal[c - 'a']++;
+        
+        // sliding the window
+        for(int i=0; i<s2.size(); ++i){
+            // On moving the window
+            // right counter of window is incremented
+            cur[s2[i] - 'a']++;
+            
+            // As we move window to right
+            // left element of last window is discarded
+            if(i >= s1.size()) cur[s2[i-s1.size()] - 'a']--;
+            
+            // instead of comparing cur==goal everytime
+            // we check only when it is required 
+            // better computational time
+            if( i>= s1.size()-1 && cur == goal) return true;
+        }
+        return false;
+    }
+};

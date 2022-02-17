@@ -1,0 +1,51 @@
+https://leetcode.com/problems/find-all-anagrams-in-a-string/
+
+// SLIDING WINDOW APPROACH
+// TIME: O(1)*O(N) i.e. O(N)
+// SPACE: O(1)
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        vector<int> p_hash(26,0), s_hash(26,0), res;
+        int len  = s.size();
+        int window = p.size();
+        
+        if(len <  window) return {};
+        
+        //fill, p_hash for string pattern and s_hash for window sliding
+        for(int i=0; i<window; ++i){
+            ++p_hash[p[i] - 'a'];
+            ++s_hash[s[i] - 'a'];
+        }
+        if(p_hash == s_hash)
+            res.push_back(0);
+        
+        for(int i=window; i<len; ++i){
+            // window extends one step to the right. counter for s[i] is incremented 
+            ++s_hash[s[i] - 'a'];
+            
+            // one element to the left should be discarded. 
+            //counter for s[i-p.size()] is decremented
+            --s_hash[s[i-window] - 'a'];
+            
+            if(p_hash == s_hash) // this comparison takes O(26), i.e O(1), since both vectors are of fixed size 26.
+                res.push_back(i-window+1);
+        }
+        return res;
+    }
+};
+
+// Faster & Concise:
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+	vector<int> goal(26), cur(26), res;
+	for(char c : p) goal[c - 'a']++;
+	for(int i = 0; i < s.size(); i++) {
+		cur[s[i] - 'a']++;
+		if(i >= p.size()) cur[s[i - p.size()] - 'a']--;
+		if(i >= p.size()-1 && cur == goal) res.push_back(i - p.size() + 1);
+	}
+	return res;
+}
+};
